@@ -1,9 +1,11 @@
 import PatientContainer from "/components/PatientContainer"
 import PatientTabs from "/components/PatientTabs"
 import SummaryList from "/components/SummaryList"
-import ConditionListItem from "../../components/ConditionListItem"
-import MedicationListItem from "../../components/MedicationListItem"
-import AllergyListItem from "../../components/AllergyListItem"
+import ConditionListItem from "/components/ConditionListItem"
+import MedicationListItem from "/components/MedicationListItem"
+import AllergyListItem from "/components/AllergyListItem"
+import { gql, useQuery } from "@apollo/client"
+import { useRouter } from "next/router"
 
 
 const conditions = [
@@ -96,9 +98,27 @@ const allergies = [
   },
 ]
 
-export default function Summary() {
+const PATIENT_QUERY = gql`
+  query GetPatient($id: Int) {
+    patient(where:{ _id: { _eq: $id } }) {
+      id
+      ...PatientContainerFragment
+    }
+  }
+  ${PatientContainer.fragments.patient}
+`
+
+export default function PatientSummary() {
+  const router = useRouter()
+
+  const { error, loading, data } = useQuery(PATIENT_QUERY, { variables: { id: router.query.id } })
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+
   return (
-    <PatientContainer>
+    <PatientContainer patient={data.patient[0]}>
       <PatientTabs></PatientTabs>
       <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
 
