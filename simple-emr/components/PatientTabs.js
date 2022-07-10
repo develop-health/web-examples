@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router'
 
 const tabs = [
-  { name: 'Timeline', pathname: 'timeline' },
+  // { name: 'Timeline', pathname: 'timeline' },
   { name: 'Summary', pathname: 'summary' },
   { name: 'Demographics', pathname: 'demographics' },
   { name: 'Team', pathname: 'team' },

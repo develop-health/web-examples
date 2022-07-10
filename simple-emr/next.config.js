@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: '/patient/:id',
-        destination: '/patient/:id/timeline',
+        destination: '/patient/:id/summary',
         permanent: true,
       },
     ]

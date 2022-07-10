@@ -32,7 +32,7 @@ export default function PatientDirectory() {
   return (
     <aside className="hidden xl:order-first xl:flex xl:flex-col flex-shrink-0 w-96 border-r border-gray-200">
       <div className="px-6 pt-6 pb-4">
-        <h2 className="text-lg font-medium text-gray-900">Directory</h2>
+        <h2 className="text-lg font-medium text-gray-900">Patients</h2>
         <p className="mt-1 text-sm text-gray-600">Search directory of {loading ? '-' : data.patient_aggregate.aggregate.count} patients</p>
         <form className="mt-6 flex space-x-4" action="#">
           <div className="flex-1 min-w-0">

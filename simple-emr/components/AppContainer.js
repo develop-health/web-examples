@@ -2,29 +2,27 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
 	CalendarIcon,
+	CheckCircleIcon,
 	CogIcon,
 	HomeIcon,
-	MapIcon,
 	MenuIcon,
 	SearchCircleIcon,
-	SpeakerphoneIcon,
 	UserGroupIcon,
 	ViewGridAddIcon,
 	XIcon,
 } from '@heroicons/react/outline'
 
 const user = {
-	name: 'Tom Cook',
+	name: 'Asma Mackie',
 	imageUrl:
-		'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+		'https://api.multiavatar.com/Asma Mackie.png',
 }
 const navigation = [
 	{ name: 'Dashboard', href: '#', icon: HomeIcon, current: false },
+	{ name: 'Patients', href: '#', icon: SearchCircleIcon, current: true },
 	{ name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-	{ name: 'Teams', href: '#', icon: UserGroupIcon, current: false },
-	{ name: 'Directory', href: '#', icon: SearchCircleIcon, current: true },
-	{ name: 'Announcements', href: '#', icon: SpeakerphoneIcon, current: false },
-	{ name: 'Office Map', href: '#', icon: MapIcon, current: false },
+	{ name: 'Tasks', href: '#', icon: CheckCircleIcon, current: false },
+	{ name: 'Staff', href: '#', icon: UserGroupIcon, current: false },
 ]
 const secondaryNavigation = [
 	{ name: 'Apps', href: '#', icon: ViewGridAddIcon },
