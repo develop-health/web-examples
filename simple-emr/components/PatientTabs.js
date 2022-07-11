@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router'
 
 const tabs = [
-  // { name: 'Timeline', pathname: 'timeline' },
   { name: 'Summary', pathname: 'summary' },
   { name: 'Demographics', pathname: 'demographics' },
   { name: 'Team', pathname: 'team' },
@@ -14,7 +13,6 @@ function classNames(...classes) {
 
 export default function PatientTabs() {
   const router = useRouter()
-  console.log({ router, ends: router.pathname.endsWith('summary') })
 
   return (
     <div className="mt-6 sm:mt-2 2xl:mt-5">

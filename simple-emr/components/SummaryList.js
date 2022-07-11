@@ -5,7 +5,7 @@ export default function SummaryList(props) {
             <div className="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
                 <h3>{props.title}</h3>
             </div>
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
+            <div className="bg-white shadow overflow-hidden">
                 <ul role="list" className="divide-y divide-gray-200">
                     {props.children}
                 </ul>

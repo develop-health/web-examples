@@ -3,19 +3,6 @@ import PatientContainer from "/components/PatientContainer"
 import PatientTabs from "/components/PatientTabs"
 import { client } from '/lib/client'
 
-const demos = {
-  fields: {
-    Phone: '(555) 123-4567',
-    Email: 'ricardocooper@example.com',
-    Title: 'Senior Front-End Developer',
-    Team: 'Product Development',
-    Location: 'San Francisco',
-    Sits: 'Oasis, 4th floor',
-    Salary: '$145,000',
-    Birthday: 'June 8, 1990',
-  },
-}
-
 const PATIENT_QUERY = gql`
   query GetPatient($id: Int) {
     patient(where:{ _id: { _eq: $id } }) {
@@ -48,12 +35,6 @@ export default function PatientDemographics({ patient }) {
             <dt className="text-sm font-medium text-gray-500">Gender</dt>
             <dd className="mt-1 text-sm text-gray-900">{capitalizeFirstLetter(patient.gender)}</dd>
           </div>
-          {Object.keys(demos.fields).map((field) => (
-            <div key={field} className="sm:col-span-1">
-              <dt className="text-sm font-medium text-gray-500">{field}</dt>
-              <dd className="mt-1 text-sm text-gray-900">{demos.fields[field]}</dd>
-            </div>
-          ))}
         </dl>
       </div>
     </PatientContainer>
