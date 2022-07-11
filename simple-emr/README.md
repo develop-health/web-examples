@@ -1,8 +1,19 @@
+This is a basic provider experience example. 
+
+[Live demo](https://example-provider-app.birdbath.health)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+First, add a file `.env.local` and fill with the following values.
+
+```
+GRAPHQL_ENDPOINT=<Sandbox GraphQL Endpoint>
+ENDPOINT_SECRET=<Sandbox GraphQL Admin Secret>
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev

@@ -2,7 +2,8 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import '../styles/globals.css'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8080/v1/graphql',
+  uri: process.env.GRAPHQL_ENDPOINT,
+  headers: { 'x-hasura-admin-secret': process.env.ENDPOINT_SECRET },
   cache: new InMemoryCache(),
 });
 
