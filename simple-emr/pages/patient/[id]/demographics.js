@@ -1,7 +1,7 @@
-import { gql, useQuery } from "@apollo/client"
-import { useRouter } from "next/router"
+import { gql } from "@apollo/client"
 import PatientContainer from "/components/PatientContainer"
 import PatientTabs from "/components/PatientTabs"
+import { client } from '/lib/client'
 
 const demos = {
   fields: {
@@ -20,22 +20,15 @@ const PATIENT_QUERY = gql`
   query GetPatient($id: Int) {
     patient(where:{ _id: { _eq: $id } }) {
       id
-      ...PatientContainerFragment
+      ...PatientContainerPatientFragment
     }
   }
   ${PatientContainer.fragments.patient}
 `
 
-export default function Summary() {
-  const router = useRouter()
-
-  const { error, loading, data } = useQuery(PATIENT_QUERY, { variables: { id: router.query.id } })
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
+export default function PatientDemographics({ patient }) {
   return (
-    <PatientContainer patient={data.patient[0]}>
+    <PatientContainer patient={patient} >
       <PatientTabs></PatientTabs>
       <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
@@ -49,4 +42,16 @@ export default function Summary() {
       </div>
     </PatientContainer>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { data: patientData } = await client.query({
+    query: PATIENT_QUERY,
+    variables: { id: context.query.id }
+  });
+  return {
+    props: {
+      patient: patientData.patient[0]
+    },
+  };
 }

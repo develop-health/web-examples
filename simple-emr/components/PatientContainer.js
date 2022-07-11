@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 import { ChevronLeftIcon, MailIcon, PhoneIcon } from '@heroicons/react/solid'
 import AppContainer from './AppContainer'
+import ClientOnly from './ClientOnly'
 import PatientDirectory from './PatientDirectory'
 
 
@@ -16,7 +17,7 @@ const summary = {
   `,
 }
 
-function PatientContainer({ patient, children }) {
+function PatientContainer({ root, patient, children }) {
   const name = patient.name[0]
 
   return (
@@ -76,7 +77,9 @@ function PatientContainer({ patient, children }) {
             {children}
           </article>
         </main>
-        <PatientDirectory />
+        <ClientOnly>
+          <PatientDirectory />
+        </ClientOnly>
       </div>
     </AppContainer>
   )
@@ -84,7 +87,7 @@ function PatientContainer({ patient, children }) {
 
 PatientContainer.fragments = {
   patient: gql`
-    fragment PatientContainerFragment on patient {
+    fragment PatientContainerPatientFragment on patient {
       photo {
         data
       }
@@ -93,7 +96,7 @@ PatientContainer.fragments = {
         given
       }
     }
-  `,
+  `
 };
 
 export default PatientContainer
