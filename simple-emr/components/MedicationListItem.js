@@ -13,6 +13,7 @@ function capitalizeFirstLetter(string) {
 
 function MedicationListItem({ medication }) {
   const requesterName = medication.requester.practitioner.name[0]
+  const reason = medication.reason_reference[0]
   return (
     <li>
       <a href="#" className="block hover:bg-gray-50">
@@ -36,10 +37,12 @@ function MedicationListItem({ medication }) {
                 <UsersIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                 {requesterName.prefix} {requesterName.given} {requesterName.family}
               </p>
-              <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                <TagIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                {medication.reason_reference[0].condition.code.text}
-              </p>
+              {reason && (
+                <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                  <TagIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+                  {reason.condition.code.text}
+                </p>
+              )}
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
               <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />

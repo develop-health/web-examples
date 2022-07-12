@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 const tabs = [
   { name: 'Summary', pathname: 'summary' },
   { name: 'Demographics', pathname: 'demographics' },
-  { name: 'Team', pathname: 'team' },
+  { name: 'Care Teams', pathname: 'team' },
 ]
 
 function classNames(...classes) {

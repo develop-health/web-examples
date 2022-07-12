@@ -1,4 +1,4 @@
-import { CalendarIcon, UsersIcon, OfficeBuildingIcon } from "@heroicons/react/solid";
+import { CalendarIcon, UsersIcon } from "@heroicons/react/solid";
 import { gql } from '@apollo/client'
 
 const dateTimeFormat = new Intl.DateTimeFormat('en', {
