@@ -11,6 +11,17 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const colorStatus = {
+  active: {
+    background: 'bg-yellow-100',
+    text: 'text-yellow-800'
+  },
+  stopped: {
+    background: 'bg-red-100',
+    text: 'text-red-800'
+  }
+}
+
 function MedicationListItem({ medication }) {
   const requesterName = medication.requester.practitioner.name[0]
   const reason = medication.reason_reference[0]
@@ -26,7 +37,7 @@ function MedicationListItem({ medication }) {
               </span>
             </p>
             <div className="ml-2 flex-shrink-0 flex">
-              <p className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${medication.status === 'resolved' ? 'green' : 'yellow'}-100 text-${medication.status === 'resolved' ? 'green' : 'yellow'}-800`}>
+              <p className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${colorStatus[medication.status].background} ${colorStatus[medication.status].text}`}>
                 {capitalizeFirstLetter(medication.status)}
               </p>
             </div>

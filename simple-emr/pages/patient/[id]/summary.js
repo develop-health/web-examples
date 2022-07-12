@@ -44,12 +44,10 @@ export default function PatientSummary({ patient }) {
             <ConditionListItem key={conditionSubject._id} condition={conditionSubject.conditions[0]}></ConditionListItem>
           ))}
         </SummaryList>
-
         <SummaryList title="Medications">
           {patient.medication_request_subjects.map((medicationRequestSubject) => (
             <MedicationListItem key={medicationRequestSubject.medication_requests[0]._id} medication={medicationRequestSubject.medication_requests[0]}></MedicationListItem>
           ))}
-
         </SummaryList>
       </dl>
     </PatientContainer>

@@ -4,20 +4,7 @@ import AppContainer from './AppContainer'
 import ClientOnly from './ClientOnly'
 import PatientDirectory from './PatientDirectory'
 
-
-const summary = {
-  name: 'Ricardo Cooper',
-  imageUrl:
-    'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
-  coverImageUrl:
-    'https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
-  about: `
-    <p>Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.</p>
-    <p>Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.</p>
-  `,
-}
-
-function PatientContainer({ root, patient, children }) {
+function PatientContainer({ patient, children }) {
   const name = patient.name[0]
 
   return (
@@ -36,7 +23,7 @@ function PatientContainer({ root, patient, children }) {
             {/* summary header */}
             <div>
               <div>
-                <img className="h-32 w-full object-cover lg:h-48" src={summary.coverImageUrl} alt="" />
+                <img className="h-32 w-full object-cover lg:h-48" src={`https://picsum.photos/seed/${name.given}/1950/192/?blur`} alt="" />
               </div>
               <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">

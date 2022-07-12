@@ -11,6 +11,17 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const colorStatus = {
+  active: {
+    background: 'bg-yellow-100',
+    text: 'text-yellow-800'
+  },
+  resolved: {
+    background: 'bg-green-100',
+    text: 'text-green-800'
+  }
+}
+
 function ConditionListItem({ condition }) {
   const recordedByName = condition.encounter.participant[0].individual.practitioner.name[0]
   const clinicalStatus = condition.clinical_status.coding[0].code
@@ -26,7 +37,7 @@ function ConditionListItem({ condition }) {
               </span>
             </p>
             <div className="ml-2 flex-shrink-0 flex">
-              <p className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${clinicalStatus === 'resolved' ? 'green' : 'yellow'}-100 text-${clinicalStatus === 'resolved' ? 'green' : 'yellow'}-800`}>
+              <p className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${colorStatus[clinicalStatus].background} ${colorStatus[clinicalStatus].text}`}>
                 {capitalizeFirstLetter(clinicalStatus)}
               </p>
             </div>
