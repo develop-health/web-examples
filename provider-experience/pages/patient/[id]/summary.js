@@ -45,7 +45,7 @@ export default function PatientSummary({ patient }) {
           ))}
         </SummaryList>
         <SummaryList title="Medications">
-          {patient.medication_request_subjects.map((medicationRequestSubject) => (
+          {sortBy(patient.medication_request_subjects, [medicationRequestSubject => medicationRequestSubject.medication_requests[0].status]).map((medicationRequestSubject) => (
             <MedicationListItem key={medicationRequestSubject.medication_requests[0]._id} medication={medicationRequestSubject.medication_requests[0]}></MedicationListItem>
           ))}
         </SummaryList>

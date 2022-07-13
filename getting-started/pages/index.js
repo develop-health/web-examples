@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { gql, useQuery } from "@apollo/client"
+import { gql } from "@apollo/client"
+import { client } from '../lib/client'
 
 const GET_PATIENTS = gql`
   query GetPatients {
@@ -24,19 +25,26 @@ const GET_PATIENTS = gql`
   }
 `
 
-export default function Home() {
-  const { loading, error, data } = useQuery(GET_PATIENTS);
+export async function getServerSideProps() {
+  const { data } = await client.query({
+    query: GET_PATIENTS,
+  });
+  return {
+    props: {
+      data
+    },
+  };
+}
 
-  if (error) return <p>Could not fetch patients</p>;
-
+export default function Home({ data }) {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Patients {!loading && `(${data.patient_aggregate.aggregate.count})`}
+          Patients ({data.patient_aggregate.aggregate.count})
         </h1>
         <div>
-          {loading ? (<h2>Loading...</h2>) : data.patient_aggregate.nodes.map(patient => (
+          {data.patient_aggregate.nodes.map(patient => (
             <div className={styles.card} key={patient._id}>
               <Image src={patient.photo[0].data} width={72} height={72} />
               <h3>{patient.name[0].given} {patient.name[0].family}</h3>

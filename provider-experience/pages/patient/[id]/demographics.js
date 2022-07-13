@@ -57,7 +57,7 @@ export default function PatientDemographics({ patient }) {
           <div className="sm:col-span-1">
             <dt className="text-sm font-medium text-gray-500">Address</dt>
             <dd className="mt-1 text-sm text-gray-900">{patient.address[0].line[0]}</dd>
-            <dd className="mt-1 text-sm text-gray-900">{patient.address[0].city} {patient.address[0].state} {patient.address[0].postal_code}</dd>
+            <dd className="mt-1 text-sm text-gray-900">{patient.address[0].city}, {patient.address[0].state} {patient.address[0].postal_code}</dd>
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm font-medium text-gray-500">Preferred Language</dt>

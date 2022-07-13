@@ -8,6 +8,11 @@ const nextConfig = {
         destination: '/patient/:id/summary',
         permanent: true,
       },
+      {
+        source: '/',
+        destination: '/patient',
+        permanent: true,
+      },
     ]
   },
 }
