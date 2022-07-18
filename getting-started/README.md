@@ -1,4 +1,7 @@
-This is the final product generated from the [getting started guide](https://docs.birdbath.health/docs/getting-started).
+This is the final product generated from the [getting started guide](https://www.develophealth.io/docs/gettig-started).
+
+[Live demo](https://getting-started.develophealth.io)
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
