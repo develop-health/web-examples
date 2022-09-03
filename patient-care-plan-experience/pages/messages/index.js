@@ -1,4 +1,4 @@
-import { Image, KeyboardAvoidingView, ScrollView, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, Keyboard, KeyboardAvoidingView, ScrollView, Share, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -19,7 +19,7 @@ function ChatBubble({chat}){
   return (
     <View style={{  alignItems: 'center', flexDirection: 'row', flex: 0, width: '100%', marginBottom: 15}}>
       <Image
-        style={{ width: 36, height: 36, borderRadius: 36/2, alignItems: 'left'}}
+        style={{ width: 36, height: 36, borderRadius: 36/2, alignItems: 'flex-start'}}
         source={genericUserIcon}
       />
       <View style={{ backgroundColor: "#CEF", padding: 10, marginHorizontal:10, borderRadius: 9 }}>
@@ -31,12 +31,12 @@ function ChatBubble({chat}){
 function ChatBubbleResponse({chat}){
   // A chat bubble of text response sent to the app user
   return (
-    <View style={{ alignItems: 'top', justifyContent: 'flex-end',  flexDirection: 'row', flex: 0, width: '100%', marginBottom: 15}}>
+    <View style={{ alignItems: 'flex-start', justifyContent: 'flex-end',  flexDirection: 'row', flex: 0, width: '100%', marginBottom: 15}}>
       <View style={{ backgroundColor: "#efc", padding: 10, marginHorizontal:10, borderRadius: 9 }}>
         <Text>{chat.content}</Text>
       </View>
       <Image
-        style={{ width: 36, height: 36, borderRadius: 36/2, alignItems: 'right'}}
+        style={{ width: 36, height: 36, borderRadius: 36/2, alignItems: 'flex-end'}}
         source={genericUserIcon}
       />
     </View>
@@ -51,7 +51,7 @@ function ChatMessagesView({chats}) {
   useEffect(() => {
     // scroll to the end on any chat update
     if (scrollRef.current){
-      setTimeout( function(){scrollRef.current.scrollToEnd({ animated: true })}, 20);
+      setTimeout( function(){if (!scrollRef.current){return}; scrollRef.current.scrollToEnd({ animated: true })}, 20);
     }
   }, [chats])
 
@@ -64,12 +64,12 @@ function ChatMessagesView({chats}) {
   })
   
   if (scrollRef.current){
-    setTimeout( function(){scrollRef.current.scrollToEnd({ animated: false })}, 20);
+    setTimeout( function(){if (!scrollRef.current){return}; scrollRef.current.scrollToEnd({ animated: false })}, 20);
   }
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', width: "100%"}}>
-      <ScrollView style={{paddingHorizontal: 15}} automaticallyAdjustKeyboardInsets ref={scrollRef}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', width: "100%",  paddingVertical: 5}}>
+      <ScrollView style={{paddingHorizontal: 15}} automaticallyAdjustKeyboardInsets automaticallyAdjustsScrollIndicatorInsets ref={scrollRef}>
         {chatBubbles}
       </ScrollView>
     </View>
@@ -108,7 +108,7 @@ function InputMessagesView({setChats}) {
       // console.log('mesage', message);
       let { data, error, status } = await supabase
         .from('simplechat')
-        .insert([{ sender_id: testUserId, content: message }])
+        .insert([{ sender_id: testUserId, content: message.trim() }])
 
       if (error && status !== 406) {
         throw error
@@ -131,7 +131,7 @@ function InputMessagesView({setChats}) {
 
   return (
     <View style={{backgroundColor: "#fff", flexShrink: 0,  flexGrow: 0, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 15, marginHorizontal: 15 }}>
-      <View style={{ flexGrow: 1, alignItems: 'left', justifyContent: 'flex-end',}}>
+      <View style={{ flexGrow: 1, alignItems: 'flex-start', justifyContent: 'flex-end',}}>
         <TextInput
           placeholder={'Type here...'}
           style={styles.input}
@@ -177,11 +177,11 @@ export default function MessagesScreen({session}) {
   );
   
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1}}>
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', }}>
-      <ChatMessagesView chats={chats}></ChatMessagesView>
-      <InputMessagesView setChats={setChats}></InputMessagesView>
-    </View>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset='65'>
+        <View style={{ flex: 1 }}>
+          <ChatMessagesView chats={chats}></ChatMessagesView> 
+          <InputMessagesView setChats={setChats}></InputMessagesView>
+        </View>
     </KeyboardAvoidingView>
   );
 }

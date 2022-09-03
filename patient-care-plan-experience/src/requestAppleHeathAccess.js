@@ -2,6 +2,7 @@ import AppleHealthKit, {
   HealthValue,
   HealthKitPermissions,
 } from 'react-native-health'
+
 /* Permission options */
 const permissions = {
   permissions: {
