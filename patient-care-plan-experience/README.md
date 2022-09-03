@@ -1,9 +1,11 @@
 # Patient Care
 Patient care mobile application
 
-# Getting Started
+# Prerequisites
 
-There's probably more needed than this.
+Install Xcode and Xcode tools with `xcode-select --install`
+
+# Getting Started
 
 To install the dependencies:
 
@@ -13,5 +15,3 @@ To run the development server and open the iOS simulator, enter:
 
 `expo start --ios`
 
-
-# Development

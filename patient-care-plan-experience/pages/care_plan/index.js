@@ -76,7 +76,7 @@ function DailyGoalWidget(props) {
 
 export default function CarePlanScreen() {
     return (
-      <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'flex-top', padding: 20, backgroundColor: 'white'}]}>
+      <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', padding: 20, backgroundColor: 'white'}]}>
         <CurrentDateView></CurrentDateView>
         <GoalOverviewView></GoalOverviewView>
         <GoalHeaderText title="Reduce the impact of stress"></GoalHeaderText>

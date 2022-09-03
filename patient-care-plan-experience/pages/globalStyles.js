@@ -8,7 +8,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#F7F5FF',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: "100%",
+    borderRadius: 20,
     padding: 10,
     paddingHorizontal: 20,
     margin: 10,

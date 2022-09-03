@@ -68,7 +68,7 @@ function ChatMessagesView({chats}) {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-top', width: "100%"}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', width: "100%"}}>
       <ScrollView style={{paddingHorizontal: 15}} automaticallyAdjustKeyboardInsets ref={scrollRef}>
         {chatBubbles}
       </ScrollView>
