@@ -1,4 +1,4 @@
-import { Image, Keyboard, KeyboardAvoidingView, ScrollView, Share, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList, Image, Keyboard, KeyboardAvoidingView, SafeAreaView, ScrollView, Share, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -55,23 +55,36 @@ function ChatMessagesView({chats}) {
     }
   }, [chats])
 
-  let chatBubbles = chats.map((chat, index) => {
-    if (chat.sender_id == testUserId){
-      return <ChatBubbleResponse key={chat.id} chat={chat}></ChatBubbleResponse>
-    }else{
-      return <ChatBubble key={chat.id} chat={chat}></ChatBubble>
-    }
-  })
   
   if (scrollRef.current){
     setTimeout( function(){if (!scrollRef.current){return}; scrollRef.current.scrollToEnd({ animated: false })}, 20);
   }
 
+  const renderItem = ({item}) => {
+    console.log(item)
+    let chat = item
+    if (chat.sender_id == testUserId){
+      return <ChatBubbleResponse key={chat.id} chat={chat}></ChatBubbleResponse>
+    }else{
+      return <ChatBubble key={chat.id} chat={chat}></ChatBubble>
+    }
+  };
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', width: "100%",  paddingVertical: 5}}>
-      <ScrollView style={{paddingHorizontal: 15}} automaticallyAdjustKeyboardInsets automaticallyAdjustsScrollIndicatorInsets ref={scrollRef}>
-        {chatBubbles}
-      </ScrollView>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', width: "100%", paddingVertical: 5}}>
+      <FlatList 
+        data={chats}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        style={{paddingHorizontal: 15}}
+        keyboardDismissMode="interactive"
+        automaticallyAdjustContentInsets={false}
+        contentInsetAdjustmentBehavior="never"
+        maintainVisibleContentPosition={{ minIndexForVisible: 0, autoscrollToTopThreshold: 100 }}
+        automaticallyAdjustKeyboardInsets={true}
+        ref={scrollRef}
+      >
+      </FlatList>
     </View>
   );
 }
@@ -178,10 +191,10 @@ export default function MessagesScreen({session}) {
   
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset='65'>
-        <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff"}}>
           <ChatMessagesView chats={chats}></ChatMessagesView> 
           <InputMessagesView setChats={setChats}></InputMessagesView>
-        </View>
+        </SafeAreaView>
     </KeyboardAvoidingView>
   );
 }
