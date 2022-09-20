@@ -7,7 +7,7 @@ import genericUserIcon from '../../assets/user.png'
 import { useCallback, useRef, useState, useEffect } from 'react'
 import { supabase } from '../../src/supabaseClient';
 
-import {testUserId, subscribeToUpdates, unsubscribeToUpdates, getChatHistory } from './controller.js'
+import { markMessagesRead, testUserId, subscribeToUpdates, unsubscribeToUpdates, getChatHistory } from './controller.js'
 
 // This import fixes URLParam error while querying suapbase
 // https://github.com/facebook/react-native/issues/23922#issuecomment-648096619
@@ -23,7 +23,7 @@ function ChatBubble({chat}){
         source={genericUserIcon}
       />
       <View style={{ backgroundColor: "#CEF", padding: 10, marginHorizontal:10, borderRadius: 9 }}>
-        <Text>{chat.content}</Text>
+        <Text>{chat.content_string}</Text>
       </View>
     </View>
   );
@@ -33,7 +33,7 @@ function ChatBubbleResponse({chat}){
   return (
     <View style={{ alignItems: 'flex-start', justifyContent: 'flex-end',  flexDirection: 'row', flex: 0, width: '100%', marginBottom: 15}}>
       <View style={{ backgroundColor: "#efc", padding: 10, marginHorizontal:10, borderRadius: 9 }}>
-        <Text>{chat.content}</Text>
+        <Text>{chat.content_string}</Text>
       </View>
       <Image
         style={{ width: 36, height: 36, borderRadius: 36/2, alignItems: 'flex-end'}}
@@ -61,9 +61,9 @@ function ChatMessagesView({chats}) {
   }
 
   const renderItem = ({item}) => {
-    console.log(item)
     let chat = item
-    if (chat.sender_id == testUserId){
+    //console.log("RENDER", item);
+    if (chat.sender_patient_id == testUserId){
       return <ChatBubbleResponse key={chat.id} chat={chat}></ChatBubbleResponse>
     }else{
       return <ChatBubble key={chat.id} chat={chat}></ChatBubble>
@@ -71,18 +71,19 @@ function ChatMessagesView({chats}) {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', width: "100%", paddingVertical: 5}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', width: "100%", paddingVertical: 5}}>
       <FlatList 
         data={chats}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        style={{paddingHorizontal: 15}}
+        style={{paddingHorizontal: 15 }}
         keyboardDismissMode="interactive"
         automaticallyAdjustContentInsets={false}
         contentInsetAdjustmentBehavior="never"
         maintainVisibleContentPosition={{ minIndexForVisible: 0, autoscrollToTopThreshold: 100 }}
         automaticallyAdjustKeyboardInsets={true}
         ref={scrollRef}
+        initialScrollIndex={chats.count}
       >
       </FlatList>
     </View>
@@ -120,21 +121,16 @@ function InputMessagesView({setChats}) {
       const user = supabase.auth.user()
       // console.log('mesage', message);
       let { data, error, status } = await supabase
-        .from('simplechat')
-        .insert([{ sender_id: testUserId, content: message.trim() }])
+        .from('chat_abstraction')
+        .insert([{ sender_patient_id: testUserId, recipient_practitioner_id: 1, sent: new Date(), content_string: message.trim()}])
 
       if (error && status !== 406) {
         throw error
       }
 
-      //
-      setMessage('') // Clear message from text input after it has been sent.
+      // Clear message from text input after it has been sent.
+      setMessage('')
       
-      if (data) {
-        // setUsername(data.username)
-        // setWebsite(data.website)
-        // setAvatarUrl(data.avatar_url)
-      }
     } catch (error) {
       alert(error.message)
     } finally {
