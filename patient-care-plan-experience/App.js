@@ -8,6 +8,9 @@ import CarePlanScreen from './pages/care_plan';
 import MessagesScreen from './pages/messages';
 import ProfileScreen from './pages/profile';
 import SignInPage from './pages/login/signin';
+import React from 'react';
+
+import { AuthContext } from './src/context';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -16,16 +19,21 @@ import { useFonts } from 'expo-font';
 
 const Tab = createBottomTabNavigator();
 
+
+
 function ProfileHeader() {
   // Headers must be included with the navigator.
   // This is why this component is here and with the profile source.
+
+  const [user, setAuthUser] = React.useContext(AuthContext);
+
   return (
-    <View>
+    <View style={{  alignItems: 'center', flex: 0, width: '100%',}}>
       <Image
         style={{ width: 36, height: 36, borderRadius: 36/2}}
         source={genericUserIcon}
       />
-      <Text style={{fontSize: 12, textAlign: 'center'}}>Name</Text>
+      <Text style={{fontSize: 12, textAlign: 'center'}}>{user ? user.email : 'Not Logged In'}</Text>
     </View>
   );
 }
@@ -33,12 +41,12 @@ function ProfileHeader() {
 function BottomNavigationTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Log In" component={SignInPage} options={{
+      {/* <Tab.Screen name="Log In" component={SignInPage} options={{
         tabBarLabel: 'Log In',
         tabBarIcon: ({ color, size }) => (
           <Ionicons name="person-circle-outline" color={color} size={size} />
         ),
-      }}/>
+      }}/> */}
       <Tab.Screen name="Care Plan" component={CarePlanScreen} options={{
         tabBarLabel: 'Care Plan',
         tabBarIcon: ({ color, size }) => (
@@ -67,6 +75,8 @@ function BottomNavigationTabs() {
 
 export default function App() {
 
+  const [user, setUser] = React.useState(null);
+
   // load in any required fonts
   const [fontsLoaded] = useFonts({
     'WorkSans': require('./assets/fonts/WorkSans-VariableFont_wght.ttf'),
@@ -75,8 +85,10 @@ export default function App() {
     return null;
   }
   return (
-    <NavigationContainer>      
-      <BottomNavigationTabs/>
-    </NavigationContainer>
+    <AuthContext.Provider value={[user, setUser]}>
+      <NavigationContainer>      
+        <BottomNavigationTabs/>
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }

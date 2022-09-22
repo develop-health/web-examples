@@ -4,10 +4,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import genericUserIcon from '../../assets/user.png'
 
-import { useCallback, useRef, useState, useEffect } from 'react'
+import { useCallback, useContext, useRef, useState, useEffect } from 'react'
 import { supabase } from '../../src/supabaseClient';
 
-import { markMessagesRead, testUserId, subscribeToUpdates, unsubscribeToUpdates, getChatHistory } from './controller.js'
+import { AuthContext } from '../../src/context';
+import LoginStack from '../login/signin';
+
+import { subscribeToUpdates, unsubscribeToUpdates, getChatHistory } from './controller.js'
 
 // This import fixes URLParam error while querying suapbase
 // https://github.com/facebook/react-native/issues/23922#issuecomment-648096619
@@ -47,6 +50,7 @@ function ChatMessagesView({chats}) {
   // A scrollable view of the chat messages
 
   const scrollRef = useRef(null);
+  const [user, setAuthUser] = useContext(AuthContext);
 
   useEffect(() => {
     // scroll to the end on any chat update
@@ -63,7 +67,7 @@ function ChatMessagesView({chats}) {
   const renderItem = ({item}) => {
     let chat = item
     //console.log("RENDER", item);
-    if (chat.sender_patient_id == testUserId){
+    if (chat.sender_patient_id == user.intId){
       return <ChatBubbleResponse key={chat.id} chat={chat}></ChatBubbleResponse>
     }else{
       return <ChatBubble key={chat.id} chat={chat}></ChatBubble>
@@ -122,7 +126,7 @@ function InputMessagesView({setChats}) {
       // console.log('mesage', message);
       let { data, error, status } = await supabase
         .from('chat_abstraction')
-        .insert([{ sender_patient_id: testUserId, recipient_practitioner_id: 1, sent: new Date(), content_string: message.trim()}])
+        .insert([{ sender_patient_id: user.intId, recipient_practitioner_id: 1, sent: new Date(), content_string: message.trim()}])
 
       if (error && status !== 406) {
         throw error
@@ -162,29 +166,45 @@ function InputMessagesView({setChats}) {
   );
 }
 
-export default function MessagesScreen({session}) {
+export default function MessagesScreen({navigation, session}) {
   
   const [loading, setLoading] = useState(true)
   const [chats, setChats] = useState([])  // a list of all messages
 
+  const [user, setAuthUser] = useContext(AuthContext);
+
+
   useEffect(() => {
-    getChatHistory(setLoading, setChats)
+    if(!user){
+      return
+    }
+    getChatHistory(setLoading, setChats, user)
   }, [session])
 
   // on screen focus/unfocus of the screen
   useFocusEffect(
     useCallback(() => {
+
+      if(!user){
+        return
+      }
       // on focus
-      subscribeToUpdates(chats, setChats)
+      subscribeToUpdates(chats, setChats, user)
 
       const unsubscribe = function() {
         // on unfocus
         unsubscribeToUpdates()
       }
       return unsubscribe;
-    }, [testUserId])
+    }, [user])
   );
   
+
+  if (!user){
+    return LoginStack(navigation)
+  }
+
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset='65'>
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff"}}>

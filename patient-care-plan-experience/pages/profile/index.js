@@ -1,33 +1,16 @@
-import { Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { AuthContext } from '../../src/context';
+import LoginStack from '../login/signin';
+
 import { globalStyles } from '../globalStyles';
 
 const Stack = createStackNavigator();
-
-function ProfileStack() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name="ProfileHomeScreen"
-        component={ProfileHomeScreen}
-      />
-      <Stack.Screen
-        name="UpdateProfileScreen"
-        component={UpdateProfileScreen}
-      />
-      <Stack.Screen
-        name="ManageSharingScreen"
-        component={ManageSharingScreen}
-      />
-
-    </Stack.Navigator>
-  );
-}
 
 function UpdateProfileScreen({ navigation }) {
   const [username, setUsername] = useState('');
@@ -91,15 +74,11 @@ function ManageSharingScreen({ navigation }) {
   );
 }
 
-function SignOut({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
-      <Text>Signout</Text>
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-}
 function ProfileHomeScreen({ navigation }) {
+  const [user, setAuthUser] = useContext(AuthContext);
+  
+ 
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
     <TouchableOpacity
@@ -113,7 +92,7 @@ function ProfileHomeScreen({ navigation }) {
       <Text style={globalStyles.buttonText}>Manage Health Data Sharing</Text>
     </TouchableOpacity>
     <TouchableOpacity
-      onPress={() => alert('Are you sure you want to sign out?')}
+      onPress={() => setAuthUser(null)}
       style={[globalStyles.standardButton, globalStyles.linkButton]}>
       <Text style={globalStyles.buttonText}>Sign Out</Text>
     </TouchableOpacity>
@@ -123,9 +102,29 @@ function ProfileHomeScreen({ navigation }) {
 }
 
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
+  const [user, setAuthUser] = useContext(AuthContext);
+  if (!user){
+    return LoginStack(navigation)
+  }
+
+
     return (
-      <ProfileStack/>
-    );
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="ProfileHomeScreen"
+            component={ProfileHomeScreen}
+          />
+          <Stack.Screen
+            name="UpdateProfileScreen"
+            component={UpdateProfileScreen}
+          />
+          <Stack.Screen
+            name="ManageSharingScreen"
+            component={ManageSharingScreen}
+          />
+    
+        </Stack.Navigator>
+      );
   }
 

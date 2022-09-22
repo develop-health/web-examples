@@ -1,8 +1,12 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import { useContext } from 'react';
+
+import LoginStack from '../login/signin';
 import * as Progress from 'react-native-progress';
 
+import { AuthContext } from '../../src/context';
 import {globalStyles} from '../globalStyles';
 
 function CurrentDateView() {
@@ -44,7 +48,7 @@ function GoalHeaderText(props) {
 }
 
 function DailyGoalWidget(props) {
-  const goalsMet = [true, false, false, true, 'today', null, null]
+  const goalsMet = [true, false, false, false, 'today', null, null]
   const weekday = ["S", "M", "T", "W", "Th", "F", "Sa"];
   
   let dayCircles = goalsMet.map((d, index) => {
@@ -74,18 +78,24 @@ function DailyGoalWidget(props) {
 }
 
 
-export default function CarePlanScreen() {
-    return (
-      <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', padding: 20, backgroundColor: 'white'}]}>
-        <CurrentDateView></CurrentDateView>
-        <GoalOverviewView></GoalOverviewView>
-        <GoalHeaderText title="Reduce the impact of stress"></GoalHeaderText>
-        <DailyGoalWidget title="Sleep more than 8 hours"></DailyGoalWidget>
-        <DailyGoalWidget title="Meditate for 20 minutes"></DailyGoalWidget>
-        <DailyGoalWidget title="Eat more than 30 grams of fiber"></DailyGoalWidget>
-        <DailyGoalWidget title="Avoid artificial sweeteners"></DailyGoalWidget>
-      </View>
-    );
+export default function CarePlanScreen({navigation}) {
+  const [user, setAuthUser] = useContext(AuthContext);
+  if (!user){
+    return LoginStack(navigation)
+  }
+  
+ 
+  return (
+    <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', padding: 20, backgroundColor: 'white'}]}>
+      <CurrentDateView></CurrentDateView>
+      <GoalOverviewView></GoalOverviewView>
+      <GoalHeaderText title="Reduce the impact of stress"></GoalHeaderText>
+      <DailyGoalWidget title="Sleep more than 8 hours"></DailyGoalWidget>
+      <DailyGoalWidget title="Meditate for 20 minutes"></DailyGoalWidget>
+      <DailyGoalWidget title="Eat more than 30 grams of fiber"></DailyGoalWidget>
+      <DailyGoalWidget title="Avoid artificial sweeteners"></DailyGoalWidget>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

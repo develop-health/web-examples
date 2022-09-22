@@ -1,9 +1,8 @@
 import { supabase } from '../../src/supabaseClient';
 
-export const testUserId = 1
 let chatSubscription = null;
 
-async function markMessagesRead(){
+async function markMessagesRead(user){
   /*
   Set all unread messages to have a received date.
   */
@@ -14,7 +13,7 @@ async function markMessagesRead(){
       .from('chat_abstraction')
       .update({ received: new Date() })
       .is('received', null)
-      .or(`sender_patient_id.eq.${testUserId},recipient_patient_id.eq.${testUserId}`)
+      .or(`sender_patient_id.eq.${user.intId},recipient_patient_id.eq.${user.intId}`)
 
     if (status == 404){
       // no objects to update
@@ -29,12 +28,11 @@ async function markMessagesRead(){
   }
 }
 
-async function addMessage(new_message, chats, setChats){
+async function addMessage(new_message, chats, setChats, user){
   console.log('setting chats', chats)
 
   try {
-    const user = supabase.auth.user()
-
+    
     // fetch the new row
     let { data, error, status } = await supabase
       .from('chat_abstraction')
@@ -49,7 +47,7 @@ async function addMessage(new_message, chats, setChats){
       console.log(" Add message DATA", data);
       setChats( chats => [...chats, data[0]])
 
-      markMessagesRead()
+      markMessagesRead(user)
     }
   } catch (error) {
     alert(error.message)
@@ -64,15 +62,14 @@ async function deleteMessage(communication_id, chats, setChats){
   setChats( chats => newChats)
 }
 
-export async function getChatHistory(setLoading, setChats) {
+export async function getChatHistory(setLoading, setChats, user) {
   try {
     setLoading(true)
-    const user = supabase.auth.user()
-
+    
     let { data, error, status } = await supabase
       .from('chat_abstraction')
       .select(`id, sender_patient_id, recipient_patient_id, sent, content_string`)
-      .or(`sender_patient_id.eq.${testUserId},recipient_patient_id.eq.${testUserId}`)
+      .or(`sender_patient_id.eq.${user.intId},recipient_patient_id.eq.${user.intId}`)
 
     if (error && status !== 406) {
       throw error
@@ -81,7 +78,7 @@ export async function getChatHistory(setLoading, setChats) {
     if (data) {
       //onsole.log("DATA", data);
       setChats(data);
-      await markMessagesRead()
+      await markMessagesRead(user)
     }
   } catch (error) {
     alert(error.message)
@@ -94,7 +91,7 @@ function handleInsert(chatId){
 
 }
 
-export async function subscribeToUpdates(chats, setChats){
+export async function subscribeToUpdates(chats, setChats, user){
   console.log("subscribe");
   
   // cannot subscribe to abstract view - must connect to original resources
@@ -105,7 +102,7 @@ export async function subscribeToUpdates(chats, setChats){
     if (payload.table == 'chat_realtime'){
       let action = payload.new.action;
       if (action == 'insert'){
-        addMessage(payload.new, chats, setChats);
+        addMessage(payload.new, chats, setChats, user);
       }else if(action == 'delete'){
         deleteMessage(payload.new.communication_id, chats, setChats);
       }
