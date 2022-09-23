@@ -12,6 +12,9 @@ import LoginStack from '../login/signin';
 
 import { subscribeToUpdates, unsubscribeToUpdates, getChatHistory } from './controller.js'
 
+import striptags from 'striptags';
+import StyledText from 'react-native-styled-text';
+
 // This import fixes URLParam error while querying suapbase
 // https://github.com/facebook/react-native/issues/23922#issuecomment-648096619
 import 'react-native-url-polyfill/auto';
@@ -26,7 +29,7 @@ function ChatBubble({chat}){
         source={genericUserIcon}
       />
       <View style={{ backgroundColor: "#CEF", padding: 10, marginHorizontal:10, borderRadius: 9 }}>
-        <Text>{chat.content_string}</Text>
+        <StyledText>{chat.content_string}</StyledText>
       </View>
     </View>
   );
@@ -36,7 +39,7 @@ function ChatBubbleResponse({chat}){
   return (
     <View style={{ alignItems: 'flex-start', justifyContent: 'flex-end',  flexDirection: 'row', flex: 0, width: '100%', marginBottom: 15}}>
       <View style={{ backgroundColor: "#efc", padding: 10, marginHorizontal:10, borderRadius: 9 }}>
-        <Text>{chat.content_string}</Text>
+        <StyledText>{chat.content_string}</StyledText>
       </View>
       <Image
         style={{ width: 36, height: 36, borderRadius: 36/2, alignItems: 'flex-end'}}
@@ -66,6 +69,7 @@ function ChatMessagesView({chats}) {
 
   const renderItem = ({item}) => {
     let chat = item
+    chat.content_string = striptags(chat.content_string, ['b', 'i', 'u'])
     //console.log("RENDER", item);
     if (chat.sender_patient_id == user.intId){
       return <ChatBubbleResponse key={chat.id} chat={chat}></ChatBubbleResponse>
@@ -75,7 +79,7 @@ function ChatMessagesView({chats}) {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', width: "100%", paddingVertical: 5}}>
+    <View style={{ flex: 1, justifyContent: 'flex-end', width: "100%", paddingVertical: 5}}>
       <FlatList 
         data={chats}
         renderItem={renderItem}
