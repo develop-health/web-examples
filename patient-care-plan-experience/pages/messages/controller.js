@@ -95,7 +95,7 @@ export async function subscribeToUpdates(chats, setChats, user){
   
   // cannot subscribe to abstract view - must connect to original resources
   chatSubscription = supabase  // do not await for subscriptions
-  .from('chat_realtime:patient_id=eq.1')  // or queries do not work for subscriptions, 
+  .from(`chat_realtime:patient_id=eq.${user.intId}`)  // or queries do not work for subscriptions, 
   .on('INSERT', (payload) => {
     console.log('Change received!', payload)
     if (payload.table == 'chat_realtime'){
