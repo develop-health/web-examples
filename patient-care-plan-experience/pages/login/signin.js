@@ -69,7 +69,7 @@ function SignInPage({ navigation }) {
 
 function VerificationKeyPage({ navigation }) {
   const [loading, setLoading] = useState(false)
-  const [password, setPassword] = useState("")
+  const [token, setToken] = useState("")
   const [user, setAuthUser] = useContext(AuthContext);
 
   const handleVerification = async (e) => {
@@ -78,7 +78,7 @@ function VerificationKeyPage({ navigation }) {
     try {
       setLoading(true)
       
-      const { user, session, error } = await supabase.auth.signIn({ 'email': globalEmail, password: password.password })
+      const { user, session, error } = await supabase.auth.verifyOTP({ email: globalEmail, token, type: 'magiclink' })
       if (error) throw error
 
       if (user){
@@ -110,8 +110,8 @@ function VerificationKeyPage({ navigation }) {
       />
       <Text style={globalStyles.label}>Check your email for a verification code</Text>
       <TextInput
-          value={password}
-          onChangeText={(password) => setPassword({ password })}
+          value={token}
+          onChangeText={(token) => setToken(token)}
           onKeyPress={(e) => {if (e.key === 'Enter') {handleVerification(e)}}}
           placeholder={'Enter the code emailed to you'}
           style={globalStyles.input}

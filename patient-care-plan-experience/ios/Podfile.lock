@@ -6,7 +6,7 @@ PODS:
     - ExpoModulesCore
   - EXApplication (4.2.2):
     - ExpoModulesCore
-  - EXConstants (13.2.4):
+  - EXConstants (13.2.3):
     - ExpoModulesCore
   - EXErrorRecovery (3.2.0):
     - ExpoModulesCore
@@ -17,7 +17,7 @@ PODS:
   - EXJSONUtils (0.3.0)
   - EXManifests (0.3.1):
     - EXJSONUtils
-  - Expo (46.0.9):
+  - Expo (46.0.8):
     - ExpoModulesCore
   - expo-dev-client (1.2.1):
     - EXManifests
@@ -402,12 +402,12 @@ PODS:
     - React-perflogger (= 0.69.5)
   - RNAppleHealthKit (1.7.0):
     - React
-  - RNGestureHandler (2.6.0):
+  - RNGestureHandler (2.6.1):
     - React-Core
   - RNScreens (3.15.0):
     - React-Core
     - React-RCTImage
-  - RNSVG (13.1.0):
+  - RNSVG (13.2.0):
     - React-Core
   - Yoga (1.14.0)
 
@@ -595,13 +595,13 @@ SPEC CHECKSUMS:
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EASClient: a2581835cf9b97d0defd5d630fc6eb1bf77045e7
   EXApplication: e418d737a036e788510f2c4ad6c10a7d54d18586
-  EXConstants: 7c44785d41d8e959d527d23d29444277a4d1ee73
+  EXConstants: 75c40827af38bd6bfcf69f880a5b45037eeff9c9
   EXErrorRecovery: 74d71ee59f6814315457b09d68e86aa95cc7d05d
   EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
   EXFont: a5d80bd9b3452b2d5abbce2487da89b0150e6487
   EXJSONUtils: 2a74b8f40f1523cc3f92af99c91aa78201737a77
   EXManifests: b38dc61303f5eede990b4c8ecbfac32f82160e65
-  Expo: 73412414e62f5cbc6e713def821de70b92cd3ad6
+  Expo: 2322364db3fe1adaa179787edb7e1bc6e5159c78
   expo-dev-client: 258dd6da471e23b8671a3634003e4c0ff55aaeda
   expo-dev-launcher: c0c466fe8fbda8a2e34e1c69e1b87df237698599
   expo-dev-menu: ab1e9353dbc761d5b62b1fc909f38e866857feba
@@ -644,9 +644,9 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: c778439c3c430a5719d027d3c67423b390a221fe
   ReactCommon: ab1003b81be740fecd82509c370a45b1a7dda0c1
   RNAppleHealthKit: 60a6beefdd89a75811e9a8873a5e24f351dee681
-  RNGestureHandler: 920eb17f5b1e15dae6e5ed1904045f8f90e0b11e
+  RNGestureHandler: 28ad20bf02257791f7f137b31beef34b9549f54b
   RNScreens: 4a1af06327774490d97342c00aee0c2bafb497b7
-  RNSVG: 1153e8eeb34c788841016c517dba9f57f20b762f
+  RNSVG: 07037623c36f12e41312730622d5f6b3656227ca
   Yoga: c2b1f2494060865ac1f27e49639e72371b1205fa
 
 PODFILE CHECKSUM: 167b062bf1da5c67fda5f28aef98aacc3e60af79

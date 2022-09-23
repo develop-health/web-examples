@@ -76,7 +76,6 @@ export async function getChatHistory(setLoading, setChats, user) {
     }
 
     if (data) {
-      //onsole.log("DATA", data);
       setChats(data);
       await markMessagesRead(user)
     }
