@@ -66,7 +66,7 @@ function BottomNavigationTabs() {
         ),
         headerTitle: (props) => <ProfileHeader {...props} />,
         headerStyle: {
-          height: 80,
+          height: 110,
         },
       }}/>
     </Tab.Navigator>
