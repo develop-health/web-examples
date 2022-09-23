@@ -183,7 +183,7 @@ export default function MessagesScreen({navigation, session}) {
       return
     }
     getChatHistory(setLoading, setChats, user)
-  }, [session])
+  }, [user, session])
 
   // on screen focus/unfocus of the screen
   useFocusEffect(
