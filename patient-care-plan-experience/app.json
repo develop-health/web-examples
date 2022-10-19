@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "Develop Health Patient Care",
+    "slug": "develop-health-spatient-care",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.develophealth.patientcare",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.develophealth.patientcare",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "react-native-health",
+        {
+          "isClinicalDataEnabled": true,
+          "healthSharePermission": "Custom health share permission",
+          "healthUpdatePermission": "Custom health update permission"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "562f664e-fd6f-4764-9420-0d61b1eccf05"
+      }
+    }
+  }
+}
